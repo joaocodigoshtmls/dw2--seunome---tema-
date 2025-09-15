@@ -19,8 +19,28 @@ class ProdutoBase(SQLModel):
 
 class Produto(ProdutoBase, table=True):
 	id: Optional[int] = Field(default=None, primary_key=True)
+	__table_args__ = ("sqlite_autoincrement",)
 
 
 class ProdutoRead(ProdutoBase):
 	id: int
+
+
+class ProdutoCreate(ProdutoBase):
+	pass
+
+
+class ProdutoUpdate(SQLModel):
+	nome: Optional[str] = None
+	descricao: Optional[str] = None
+	preco: Optional[float] = None
+	estoque: Optional[int] = None
+	categoria: Optional[str] = None
+	sku: Optional[str] = None
+
+	@validator('preco')
+	def preco_duas_casas(cls, v):
+		if v is None:
+			return v
+		return round(float(v), 2)
 

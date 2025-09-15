@@ -8,3 +8,8 @@ engine = create_engine(DATABASE_URL, echo=False, connect_args={"check_same_threa
 
 def init_db():
     SQLModel.metadata.create_all(engine)
+
+
+def get_session():
+    from sqlmodel import Session
+    return Session(engine)
